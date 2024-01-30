@@ -49,11 +49,21 @@ describe('Endpoints', () => {
                 .then(response => {
                     expect(response.body.name).toEqual(testDogData.name)
                  });
+
         });
 
         it('query database for matching response.body.id', async () => {
-            // In another test (another it), query the database for a dog of id matching that of the response.body.id coming back from the API. Assert that the dog data from the db matches the request body.
+            // In another test (another it), query the database for a dog of id matching that of the response.body.id coming back from the API. Assert that the dog data from the db matches the request body. 
+            const response = await request(app)
+            .post('/dogs')
+            //.send
+            .send( testDogData)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
 
+            const goodBoy = await Dog.findByPk(response.body.id)
+            expect(response.body.id).toEqual(goodBoy.id);
         });
     });
 
@@ -61,7 +71,6 @@ describe('Endpoints', () => {
     // describe('DELETE /dogs/:id', () => {
     //     it('should delete dog data of :id', async () => {
     //         // This time, send a DELETE request to /dogs/1 via supertest.
-
     //         // Query the database for a dog with ID of 1.
 
     //         // Assert that the dog returned from the findAll is null. Use Jest’s toBeNull.
