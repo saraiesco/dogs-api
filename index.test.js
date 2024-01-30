@@ -68,13 +68,15 @@ describe('Endpoints', () => {
     });
 
 
-    // describe('DELETE /dogs/:id', () => {
-    //     it('should delete dog data of :id', async () => {
-    //         // This time, send a DELETE request to /dogs/1 via supertest.
-    //         // Query the database for a dog with ID of 1.
-
-    //         // Assert that the dog returned from the findAll is null. Use Jest’s toBeNull.
-       
-    //     });
-    // });
+    describe('DELETE /dogs/:id', () => {
+        it('should delete dog data of :id', async () => {
+            // This time, send a DELETE request to /dogs/1 via supertest.
+           await request(app)
+            .delete('/dogs/1')
+            // Query the database for a dog with ID of 1.
+            const deletedDog = await Dog.findByPk(1)
+            // Assert that the dog returned from the findAll is null. Use Jest’s toBeNull.
+            expect(await deletedDog).toEqual(null);
+        });
+    });
 });
